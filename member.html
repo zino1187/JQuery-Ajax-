@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>회원관리 프로그램</title>
+<style>
+.wrapper{
+	width:900px;
+	height:550px;
+	margin:auto;
+	border:2px solid #000;
+}
+.form{
+	width:200px;
+	height:100%;
+	background:#eee;
+	float:left;
+}
+.result{
+	width:700px;
+	height:100%;
+	background:yellow;
+	float:left;
+}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script>
+var member=new Array();
+
+$(function(){  //addEventListener("load") 동일
+	$("#bt_regist").click(function(){
+		regist();
+	});
+
+	$("#bt_list").click(function(){
+		list();
+	});
+
+});
+
+//한 사람에 대한 정보를 JSON으로 생성하여, 배열에 적재시킨다
+//한사람에 대한정보를 일차원 배열에 담아도 되지만, 현실의 사물 
+//하나를 가리키는 목적에 있어서는 객체를 사용하는것이 더 
+//직관적이며 효율적이다
+function regist(){
+	//json을 네트워크를 통해 데이터를 주고 받는 용도일 경우
+	//문자열 취급을 해야 하고, 아래와 같이 프로그래밍 언어에서
+	//객체로 취급하여 처리할 경우엔 변수에 대해 문자열 처리를 하지 않아도 된다
+	var obj={
+		name:$("#name").val() ,
+		money:$("#money").val(),
+		nation:$("#nation").val()
+	}
+	location.href="http://localhost:7777/regist?name="+$("#name").val()+"&money="+$("#money").val()+"&nation="+$("#nation").val();
+}
+
+//배열에 누적된 회원들을 화면에 출력해보자!!!
+function list(){
+	var tag="<table width='100%' border='1'>";
+	tag+="<tr>";
+	tag+="<td>이름</td>";
+	tag+="<td>국적</td>";
+	tag+="<td>성금액</td>";
+	tag+="</tr>";
+
+	for(var i=0;i<member.length;i++){
+		var obj=member[i]; //json 끄집어 내기!!
+		tag+="<tr>";
+		tag+="<td>"+obj.name+"</td>";
+		tag+="<td>"+obj.nation+"</td>";
+		tag+="<td>"+obj.money+"</td>";
+		tag+="</tr>";
+	}
+	tag+="</table>";
+
+	$("#result").html(tag); //javascript의 DOM의 innerHTML
+}
+</script>
+</head>
+<body>
+
+	<div class="wrapper">
+		<div class="form">
+			<div>
+				<input type="text" placeholder="이름입력" id="name">
+			</div>
+			<div>
+				<input type="text" placeholder="금액입력" id="money">
+			</div>
+			<div>
+				<select id="nation">
+					<option value="필리핀">필리핀</option>
+					<option value="일본">일본</option>
+					<option value="한국">한국</option>
+					<option value="미국">미국</option>
+					<option value="영국">영국</option>
+				</select>
+			</div>
+			<div>
+				<button id="bt_regist">등록</button>
+				<button id="bt_list">리스트</button>
+			</div>
+		</div>
+		<div class="result" id="result"></div>
+	</div>
+
+</body>
+</html>
