@@ -7,8 +7,9 @@
 .wrapper{
 	width:900px;
 	height:550px;
-	margin:auto;
 	border:2px solid #000;
+	position:relative; /* html tag 본연의 위치 = normal position */
+	left:-300px;
 }
 .form{
 	width:200px;
@@ -29,6 +30,10 @@
 var member=new Array();
 
 $(function(){  //addEventListener("load") 동일
+	$(".wrapper").animate({
+		"left":"200px"
+	});
+
 	$("#bt_regist").click(function(){
 		regist();
 	});
